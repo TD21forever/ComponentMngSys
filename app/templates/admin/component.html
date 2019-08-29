@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block app_content %}
+    {% from 'bootstrap/utils.html' import render_static %}
+    <hr>
+    <form method="post" class="">
+        <div class="form-row">
+            {% for one in form %}
+                {% if one.label.text == "添加"%}
+                    <div class="col-auto col-2">
+                        <button type="submit" class="btn btn-outline-secondary">添加 </button>
+                    </div>
+                    
+                {% else %}
+                    <div class="col-auto col-2">
+                        <label class="sr-only" for="inlineFormInput">{{one.label.text}}</label>
+                        {{one}}
+                    </div>
+                {% endif %}
+                
+            {% endfor %}
+        </div>
+    </form>
+    <hr>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">元器件信息表</div>
+        <!-- Table -->
+        <table class="table table-light">
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>型号</th>
+                    <th>数量</th>
+                    <th>单价</th>
+                    <th>总价</th>
+                    <th>备注</th>
+                </tr>
+            </thead>
+            {% for component in items %}
+                <tbody>
+                    <td>{{ component.name }}</td>
+                    <td>{{ component.type}}</td>
+                    <td>{{ component.quantity}}</td>
+                    <td>{{ component.unitPrice}}</td>
+                    <td>{{ component.totalPrice}}</td>
+                    <td>{{ component.remark}}</td>
+                    <td>
+                        <a class="btn btn-outline-danger btn-sm" href="{{ url_for('delete',component_id =component.id) }}" role="button" >删除</a>
+                        <!-- 如果不更改这个id  按钮指向同一个页面 -->
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#data{{component.id}}">修改
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="data{{component.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">修改信息</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="form-inline" action="/modify/{{component.id}}" id="form{{component.id}}" method="POST">
+                                            <fieldset disabled>
+                                                <div class="form-group">
+                                                    <label>名称</label>
+                                                    <input type="text" class="form-control mx-sm-3" placeholder="{{component.name}}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>型号</label>
+                                                    <input type="text" class="form-control mx-sm-3" placeholder="{{ component.type}}">
+                                                </div>
+                                            </fieldset>
+                                            <div class="form-group">
+                                                <label>数量</label>
+                                                <input type="number" name="quantity" class="form-control mx-sm-3" value="{{ component.quantity}}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>单价</label>
+                                                <input type="number" name="unitPrice" class="form-control mx-sm-3" value="{{ component.unitPrice}}">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>备注</label>
+                                                <input type="text" name="remark" class="form-control mx-sm-3" value="{{ component.remark}}">
+                                            </div>
+                                        </form>
+                                        
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                                        <button type="button" id="button{{component.id}}" class="btn btn-primary">保存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal END -->
+                    </td>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+{% block end %}
+    {% for component in items %}
+        <script>
+        $(function(){
+        $("#button{{component.id}}").click(function(){
+        var form = document.getElementById("form{{component.id}}");
+        form.submit();
+        });
+        });
+        </script>
+    {% endfor %}
+{% endblock %}

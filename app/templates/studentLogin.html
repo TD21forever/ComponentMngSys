@@ -1,0 +1,49 @@
+
+{% from 'bootstrap/utils.html' import render_static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AdminLogin</title>
+    {{ bootstrap.load_css() }}
+    {{ render_static('css', 'signin.css') }}
+</head>
+<body class="text-center">
+<form class="form-signin" method="post">
+    {{ form.csrf_token }}
+    <img class="mb-4" src="https://gw.alicdn.com/tps/TB1W_X6OXXXXXcZXVXXXXXXXXXX-400-400.png" alt="" width="72"
+         height="72">
+    <h1 class="h3 mb-3 font-weight-normal">学生登录</h1>
+    {% if form.password.errors[0] or form.id.errors[0] %}
+        <div class="alert alert-danger" role="alert">
+            {{ form.id.errors[0] }} {{ form.password.errors[0] }}
+        </div>
+    {% endif %}
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-warning" role="alert">
+            <strong>{{ message }}</strong>
+          </div>
+        {% endfor %}
+      {% endif %}
+      {% endwith %}
+
+    <label class="sr-only">{{ form.id.label }}</label>
+    {{ form.id }}
+    <label for="inputPassword" class="sr-only">{{ form.password.label }}</label>
+    {{ form.password }}
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember-me"> Remember me
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+    <p>未注册?<a href="{{ url_for('register',identity='student') }}">点击注册</a></p>
+    <p>管理员<a href="{{ url_for('login',identity='admin') }}">登录</a></p>
+{{ bootstrap.load_js() }}
+    <p class="mt-5 mb-3 text-muted">&copy; 2019-2020</p>
+</form>
+
+</body>
+</html>
+

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+
+<div class="jumbotron">
+  <h1 class="display-4">自动化科协元器件管理系统</h1>
+  <p class="lead">This is a simple component management system for Association of Science and Technology of School of Automation</p>
+    {% if current_user.is_anonymous %}
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" href="{{ url_for('login',identity='student') }}" role="button">登录</a>
+  </p>
+  {% endif %}
+</div>
+{% endblock %}

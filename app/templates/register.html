@@ -1,0 +1,44 @@
+{% from 'bootstrap/utils.html' import render_static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    {{ bootstrap.load_css() }}
+    {{ render_static('css', 'signin.css') }}
+</head>
+<body class="text-center">
+<form class="form-signin" method="post">
+    {{ form.csrf_token }}
+    <img class="mb-4" src="https://gw.alicdn.com/tps/TB1W_X6OXXXXXcZXVXXXXXXXXXX-400-400.png" alt="" width="72"
+         height="72">
+    <h1 class="h3 mb-3 font-weight-normal">注册</h1>
+    {% if form.password.errors[0] or form.id.errors[0] %}
+        <div class="alert alert-danger" role="alert">
+            {{ form.id.errors[0] }} {{ form.password.errors[0] }}
+        </div>
+    {% endif %}
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-warning" role="alert">
+            <strong>{{ message }}</strong>
+          </div>
+        {% endfor %}
+      {% endif %}
+      {% endwith %}
+
+	{% for one in form %}
+		{% if one.label.text == "注册" %}
+    	<button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+		{% else %}
+	    <label for="inputId" class="sr-only">{{ one.label }}</label>
+	    {{ one }}
+	    {% endif %}
+	{% endfor %}
+    <p>已注册?<a href="{{ url_for('login',identity='student') }}">现在登录</a></p>
+    <p class="mt-5 mb-3 text-muted">&copy; 2019-2020</p>
+</form>
+
+</body>
+</html>
+

@@ -1,0 +1,40 @@
+	{% extends "base.html" %}
+{% block app_content %}
+	<div class="panel panel-default">
+		<!-- Default panel contents -->
+		<div class="panel-heading">申请记录表</div>
+		<!-- Table -->
+		<table class="table">
+			<thead>
+				<tr>
+					<th>名称</th>
+					<th>型号</th>
+					<th>申请数量</th>
+					<th>单价</th>
+					<th>申请状态</th>
+					<th>申请时间</th>
+					<th>备注</th>
+				</tr>
+			</thead>
+			{% for item in items %}
+				<tbody>
+					<td>{{ item['Component'].name }}</td>
+					<td>{{ item['Component'].type}}</td>
+					<td>{{ item['Application'].quantity}}</td>
+					<td>{{ item['Component'].unitPrice}}</td>
+					<td>{{ item['Application'].status}}</td>
+					<td>{{ item['Application'].time}}</td>
+
+					{% if item['Application'].status == "申请失败" %}
+					<td>{{ item['Application'].remark}}</td>
+					{% endif %}
+					{% if item['Application'].status == "申请中"%}
+					<td>
+						<a class="btn btn-primary btn-sm" href="{{ url_for('unapplication',application_id = item['Application'].id) }}">取消申请</a>
+					</td>
+					{% endif %}
+			</tbody>
+		{% endfor %}
+	</table>
+</div>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block app_content %}
+	<div class="panel panel-default">
+		<!-- Default panel contents -->
+		<!-- Table -->
+		<table class="table">
+			<thead>
+				<tr>
+					<th>申请人姓名</th>
+					<th>申请人学号</th>
+					<th>元器件名称</th>
+					<th>元器件型号</th>
+					<th>申请数量</th>
+					<th>申请时间</th>
+					<th>申请状态</th>
+				</tr>
+			</thead>
+			{% for item in items %}
+				<tbody>
+					<td>{{ item['Student'].username }}</td>
+					<td>{{ item['Student'].student_num }}</td>
+					<td>{{ item['Component'].name }}</td>
+					<td>{{ item['Component'].type}}</td>
+					<td>{{ item['Application'].quantity}}</td>
+					<td>{{ item['Application'].time}}</td>
+					<td>{{ item['Application'].status}}</td>
+					<td>
+						{% if item['Application'].quantity > 0 and item['Application'].status == "申请中" %}
+							<a class="btn btn-outline-success btn-sm" href="{{ url_for('agree',application_id=item['Application'].id) }}">同意</a>
+							<button type="button" class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#exampleModal">拒绝
+							</button>
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-body">
+											<form action="/disagree/{{item['Application'].id}}" method="post">
+												<div class="form-group mx-sm-3 mb-9">
+													<label for="inputPassword2" class="sr-only"></label>
+													<input type="text" class="form-control" id="inputPassword2" placeholder="拒绝理由" name="remark">
+												</div>
+												<div class="modal-footer">
+													<button type="submit" class="btn btn-outline-warning btn-sm" data-dismiss="modal">取消</button>
+													<button type="submit" class="btn btn-outline-warning btn-sm">提交</button>
+												</div>
+											</form>
+										</div>
+										
+									</div>
+								</div>
+							</div>
+							<!-- Modal END -->
+						{% endif %}
+					</td>
+				</tbody>
+			{% endfor %}
+		</table>
+	</div>
+{% endblock %}
