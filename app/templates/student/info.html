@@ -9,6 +9,7 @@
 				<tr>
 					<th>名称</th>
 					<th>型号</th>
+					<th>部门</th>
 					<th>申请数量</th>
 					<th>单价</th>
 					<th>申请状态</th>
@@ -20,6 +21,7 @@
 				<tbody>
 					<td>{{ item['Component'].name }}</td>
 					<td>{{ item['Component'].type}}</td>
+					<td>{{ item['Component'].department}}</td>
 					<td>{{ item['Application'].quantity}}</td>
 					<td>{{ item['Component'].unitPrice}}</td>
 					<td>{{ item['Application'].status}}</td>
@@ -36,5 +38,7 @@
 			</tbody>
 		{% endfor %}
 	</table>
+    {% include '_pagination.html' %}
+	
 </div>
 {% endblock %}

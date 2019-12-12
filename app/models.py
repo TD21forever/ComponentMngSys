@@ -2,13 +2,14 @@
 # @Author: TD21forever
 # @Date:   2019-07-12 22:42:09
 # @Last Modified by:   TD21forever
-# @Last Modified time: 2019-07-18 21:53:33
+# @Last Modified time: 2019-09-26 00:41:19
 from app import db,app
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.dialects.postgresql import UUID
 from flask_login import UserMixin
 from hashlib import md5
 from app import login_manager
+from sqlalchemy.dialects.mysql import DATETIME
 
 
 '''
@@ -24,7 +25,7 @@ SQLAlchemy会假设你的表名就模型类型的小写版本。但是，如果�
 	student_id = db.Column(db.String(8),db.ForeignKey('students.student_num'),nullable=False)
 	component_id = db.Column(db.Integer,db.ForeignKey('components.id'),nullable=False)
 	quantity = db.Column(db.Integer,nullable=False)
-	time = db.Column(db.Date,nullable=False)
+	time = db.Column(DATETIME(fsp=6),nullable=False)
 	status = db.Column(db.String(64),nullable=False,default="申请中")
 	remark = db.Column(db.String(128),nullable=True,default="无")
 
@@ -82,11 +83,12 @@ class Admin(UserMixin,db.Model):
 class Component(db.Model):
 	__tablename__='components'
 	id = db.Column(db.Integer,primary_key=True)
-	name = db.Column(db.String(64))#不可以为空
-	type = db.Column(db.String(64))
-	quantity = db.Column(db.Integer)
-	unitPrice = db.Column(db.Float)
-	totalPrice = db.Column(db.Float)
+	name = db.Column(db.String(64),nullable=False)#不可以为空
+	type = db.Column(db.String(64),nullable=False)
+	quantity = db.Column(db.Integer,nullable=False)
+	unitPrice = db.Column(db.Float,nullable=False)
+	totalPrice = db.Column(db.Float,nullable=False)
+	department = db.Column(db.String(64),nullable=False)
 	remark = db.Column(db.String(128),nullable=True)
 
 

@@ -5,18 +5,14 @@
     <form method="post" class="">
         <div class="form-row">
             {% for one in form %}
-                {% if one.label.text == "添加"%}
-                    <div class="col-auto col-2">
+                <div class="col">
+                    {% if one.label.text == "添加"%}
                         <button type="submit" class="btn btn-outline-secondary">添加 </button>
-                    </div>
-                    
-                {% else %}
-                    <div class="col-auto col-2">
+                    {% else %}
                         <label class="sr-only" for="inlineFormInput">{{one.label.text}}</label>
                         {{one}}
-                    </div>
-                {% endif %}
-                
+                    {% endif %}
+                </div>
             {% endfor %}
         </div>
     </form>
@@ -30,6 +26,7 @@
                 <tr>
                     <th>名称</th>
                     <th>型号</th>
+                    <th>部门</th>
                     <th>数量</th>
                     <th>单价</th>
                     <th>总价</th>
@@ -40,12 +37,33 @@
                 <tbody>
                     <td>{{ component.name }}</td>
                     <td>{{ component.type}}</td>
+                    <td>{{ component.department}}</td>
                     <td>{{ component.quantity}}</td>
                     <td>{{ component.unitPrice}}</td>
                     <td>{{ component.totalPrice}}</td>
                     <td>{{ component.remark}}</td>
                     <td>
-                        <a class="btn btn-outline-danger btn-sm" href="{{ url_for('delete',component_id =component.id) }}" role="button" >删除</a>
+                        
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#delete{{component.id}}">
+                        删除
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="delete{{component.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <p>
+                                            删除这个元器件:<p class="text-danger">{{component.name}}</p>会删除所有申请记录
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a class="btn btn-outline-success btn-sm" role="button" data-dismiss="modal">取消</a>
+                                        <a class="btn btn-outline-danger btn-sm" href="{{ url_for('delete',component_id =component.id) }}" role="button" >删除</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- 如果不更改这个id  按钮指向同一个页面 -->
                         <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#data{{component.id}}">修改
                         </button>
@@ -70,7 +88,12 @@
                                                     <label>型号</label>
                                                     <input type="text" class="form-control mx-sm-3" placeholder="{{ component.type}}">
                                                 </div>
+                                                <div class="form-group">
+                                                    <label>部门</label>
+                                                    <input type="text" name="department" class="form-control mx-sm-3" value="{{ component.department }}">
+                                                </div>
                                             </fieldset>
+                                            
                                             <div class="form-group">
                                                 <label>数量</label>
                                                 <input type="number" name="quantity" class="form-control mx-sm-3" value="{{ component.quantity}}">
@@ -97,7 +120,9 @@
                     </td>
                 </tbody>
             {% endfor %}
+            
         </table>
+        {% include '_pagination.html' %}
     </div>
 {% endblock %}
 {% block end %}

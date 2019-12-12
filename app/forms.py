@@ -2,9 +2,9 @@
 # @Author: TD21forever
 # @Date:   2019-07-12 22:59:10
 # @Last Modified by:   TD21forever
-# @Last Modified time: 2019-08-18 16:10:43
+# @Last Modified time: 2019-09-26 02:19:07
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField,TextAreaField,IntegerField,widgets
+from wtforms import StringField, PasswordField, BooleanField, SubmitField,TextAreaField,IntegerField,widgets,SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo,Length
 from app.models import Student,Component,Admin
 class LoginForm(FlaskForm):
@@ -102,6 +102,15 @@ class AddComponentForm(FlaskForm):
 			'placeholder': '型号',
 			'required': '',
 			'autofocus': ''
+		})
+	department = SelectField('部门',
+		validators=[
+            DataRequired("请选择星级！")
+        ],
+        coerce=int,
+		choices=[(1,"电子设计部"),(2,"四轴部"),(3,"软件部"),(4,"机器人部"),(5,"智能车部"),(6,"器材部"),(7,"管理部"),(9,"人工智能部")],
+		render_kw={
+			'class': 'form-control',
 		})
 	quantity = IntegerField('数量',
 		validators=[DataRequired()],

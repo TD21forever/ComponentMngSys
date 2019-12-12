@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*9
 # @Author: TD21forever
 # @Date:   2019-07-12 22:31:40
 # @Last Modified by:   TD21forever
-# @Last Modified time: 2019-07-13 13:49:01
+# @Last Modified time: 2019-09-27 21:29:02
 import os
 class Config:
 	#首先去读取环境变量的值，如果没有，则使用硬编码字符串作为替代
@@ -13,3 +13,4 @@ class Config:
 	#每次请求结束后都会自动提交数据库中的变动
 	SQLALCHEMY_COMMIT_ON_TEARDOWN = True
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
+	DATA_PER_PAGE = 9
